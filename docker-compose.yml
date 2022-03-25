@@ -1,0 +1,21 @@
+version: "3.8"
+
+services:
+  mailServer:
+    image: mail-server/node:v1
+    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+      args:
+        - PORT = ${PORT}
+        - PUBLIC_PORT = ${PUBLIC_PORT}
+    ports:
+      - "${PUBLIC_PORT}:${PORT}"
+    env_file:
+      .env
+    volumes:
+      - ./src:/app
+      - ignore:/app/node_modules/
+volumes:
+  ignore:
